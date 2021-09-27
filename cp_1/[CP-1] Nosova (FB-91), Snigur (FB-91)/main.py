@@ -35,25 +35,23 @@ def biggrams_func(filtered_text, var_of_biggrams):
         bigram_of_text = [filtered_text[i:i+2] for i in range(0, len(filtered_text), 2)]
     else:
         bigram_of_text = [filtered_text[i:i + 2] for i in range(len(filtered_text) - 1)]
-    #print("Bigrams: ", bigram_of_text)
-    print("Number of all bigrams", len(bigram_of_text))
     frequency_of_bigrams = {}
     for bg in bigram_of_text:
         if bg not in frequency_of_bigrams:
-            frequency_of_bigrams[bg] = bigram_of_text.count(bg) / len(bigram_of_text)
+            frequency_of_bigrams[bg] = round(bigram_of_text.count(bg) / len(bigram_of_text), 5)
             #print("Frequency of bigram ", bg, "=", bigram_of_text.count(bg) / len(bigram_of_text))
-    list_of_freq_and_letters = list(frequency_of_bigrams.items())
+    list_of_freq = list(frequency_of_bigrams.values())
+    list_of_bigrams = list(frequency_of_bigrams.keys())
     table_of_freq = PrettyTable()
-    print("Number of unique bigrams", len(list_of_freq_and_letters))
-    number_of_rows = int(len(list_of_freq_and_letters) ** (1/2))
+    #print("Number of unique bigrams", len(list_of_freq_and_letters))
+    number_of_rows = int(len(list_of_bigrams) ** (1/2))
     for i in range(number_of_rows):
-        table_of_freq.add_row(list_of_freq_and_letters[number_of_rows*i:number_of_rows*(i+1)])
+        table_of_freq.add_column("l", list_of_bigrams[number_of_rows * i:number_of_rows * (i + 1)])
+        table_of_freq.add_column("num", list_of_freq[number_of_rows * i:number_of_rows * (i + 1)])
+
     with open('bg.txt', 'w') as fp:
         table = table_of_freq.get_string()
         fp.write(table)
-    list_of_freq = []
-    for i in list_of_freq_and_letters:
-        list_of_freq.append(i[1])
     return list_of_freq
 
 
